@@ -1,7 +1,7 @@
 class User:
     count_id = 0
 
-    def __init__(self, first_name, last_name, today_date, age, phone_no, gender, email_address, postal_code):
+    def __init__(self, first_name, last_name, today_date, age, phone_no, gender, email_address, postal_code, account_status):
         User.count_id += 1
         self.__user_id = User.count_id
         self.__first_name = first_name
@@ -12,6 +12,7 @@ class User:
         self.__gender = gender
         self.__email_address = email_address
         self.__postal_code = postal_code
+        self.__account_status = account_status
 
     # get
 
@@ -42,6 +43,9 @@ class User:
     def get_postal_code(self):
         return self.__postal_code
 
+    def get_account_status(self):
+        return self.__account_status
+
     # set
 
     def set_user_id(self, user_id):
@@ -71,6 +75,7 @@ class User:
     def set_postal_code(self, postal_code):
         self.__postal_code = postal_code
 
-
+    def set_account_status(self, account_status):
+        self.__account_status = account_status
 
 
