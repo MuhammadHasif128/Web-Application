@@ -1,6 +1,7 @@
 from flask import Flask, render_template, request, redirect, url_for
 from Forms import CreateUserFrom
 
+
 app = Flask(__name__)
 
 
