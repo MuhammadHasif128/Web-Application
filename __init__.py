@@ -1,5 +1,6 @@
 from flask import Flask, render_template, request, redirect, url_for
 from Forms import CreateUserFrom, CreateAdminForm
+import pandas as pd
 import shelve, User, Admin
 
 
@@ -90,6 +91,36 @@ def retrieve_users():
         users_list.append(user)
 
     return render_template('retrieveUsers.html', count=len(users_list), users_list=users_list)
+
+@app.route('/exportUsers')
+def export_users():
+
+    users_dict = {}
+    db = shelve.open('user.db', 'r')
+    users_dict = db['Users']
+    db.close()
+
+    df = pd.DataFrame({'First_Name': [], 'Last_Name': []})
+
+    users_list = []
+    for key in users_dict:
+        user = users_dict.get(key)
+        df = df.append({'First_Name': user.get_first_name(),
+                        'Last_Name': user.get_last_name(), 
+                        'Gender' : user.get_gender(),
+                        'RegDate' : user.get_today_date(),
+                        'Age' : user.get_age(),
+                        'Phone_No' : user.get_phone_no(),
+                        'Email' : user.get_email_address(),
+                        'PostalCode': user.get_postal_code(),
+                        'AccountStatus' : user.get_account_status()},
+                        ignore_index=True)
+        print(user.get_first_name())
+        users_list.append(user)
+
+    df.to_excel('sample.xlsx', index=False)
+
+    return redirect(url_for('retrieve_users'))
 
 @app.route('/updateUser/<int:id>/', methods=['GET', 'POST'])
 def update_user(id):
